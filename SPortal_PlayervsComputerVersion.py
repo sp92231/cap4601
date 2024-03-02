@@ -193,7 +193,8 @@ def main():
 
     solved=False
     UserTurn = True
-    while True: # main game loop
+    while True: # main game loopssh -T git@github.com
+
         slideTo = None # the direction, if any, a tile should slide
         if (UserTurn):
             msg = 'User Turn' # contains the message to show in the upper left corner.
