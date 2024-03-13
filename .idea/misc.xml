@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+<<<<<<< HEAD
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11 (Uncertainty)" project-jdk-type="Python SDK" />
+=======
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11 (AdversarialSearch)" project-jdk-type="Python SDK" />
+>>>>>>> f61b1e6835ddc03019e2d3d1631b35e5fd3061df
 </project>

@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/.idea/Uncertainty.iml" filepath="$PROJECT_DIR$/.idea/Uncertainty.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/.idea/AdversarialSearch.iml" filepath="$PROJECT_DIR$/.idea/AdversarialSearch.iml" />
+>>>>>>> f61b1e6835ddc03019e2d3d1631b35e5fd3061df
     </modules>
   </component>
 </project>

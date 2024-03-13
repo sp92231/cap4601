@@ -4,205 +4,242 @@ Name: Shanie Portal
 Date: 03/03/24
 Assignment: Module 7: Project - Uncertainty Python
 Due Date: 03/03/24
-About this project: This project computes and displays a distribution table from the data set: steak-risk-survey.
-Assumptions: Not exactly an assumption, but it should be noted that there are rows in the excel file that do not
-answer for the question of Gender when they do not eat steak, but some of them do answer for Gender when they do not eat
-steak. This gives a total percentage of under 100%, but I have verified that the correct totals are being counted
-when compared to the values received from analyzing in excel.
+About this project: This project computes and displays a distribution table from the data set: Star Wars.
+Assumptions: Not really assumptions, but chosen columns are:
+Have you seen any of the 6 films in the Star Wars franchise? Yes/No
+Do you consider yourself to be a fan of the Star Trek film franchise? Yes/No
+Gender? Male/Female
 All work below was performed by Shanie Portal
 
 """
 import pandas as pd
-import numpy as np
 from prettytable import PrettyTable
 
-# Loading the steak-risk-survey data set.
-file = r"steak-risk-survey.xlsx"
+# Loading the Star Wars data set.
+file = r"StarWars.xlsx"
 df = pd.read_excel(file)
 
-# Females who do not eat steak.
-dfFemaleNoSteak = df.query("Gender == 'Female' and `Do you eat steak?` == 'No'")
+# Dropping rows where there are NaNs in the data.
+df = df.dropna(axis=0, how='any', subset=['Gender', 'Do you consider yourself to be a fan of the Star Trek franchise?', 'Have you seen any of the 6 films in the Star Wars franchise?'])
 
-# Females who eat their steak Rare.
-dfFemaleRare = df.query("Gender == 'Female' and `How do you like your steak prepared?` == 'Rare'")
+# Get Counts
+# Male: Trek Y, War Y
+dfMaleTrekYWarY = df.query("`Gender` == 'Male' and "
+                           "`Do you consider yourself to be a fan of the Star Trek franchise?` == 'Yes' and "
+                           "`Have you seen any of the 6 films in the Star Wars franchise?` == 'Yes'")
 
-# Females who eat their steak Medium rare.
-dfFemaleMediumRare = df.query("Gender == 'Female' and `How do you like your steak prepared?` == 'Medium rare'")
+dfMaleTrekYWarN = df.query("`Gender` == 'Male' and "
+                           "`Do you consider yourself to be a fan of the Star Trek franchise?` == 'Yes' and "
+                           "`Have you seen any of the 6 films in the Star Wars franchise?` == 'No'")
 
-# Females who eat their steak Medium.
-dfFemaleMedium = df.query("Gender == 'Female' and `How do you like your steak prepared?` == 'Medium'")
+# Male: Trek N, War Y
+dfMaleTrekNWarY = df.query("`Gender` == 'Male' and "
+                           "`Do you consider yourself to be a fan of the Star Trek franchise?` == 'No' and "
+                           "`Have you seen any of the 6 films in the Star Wars franchise?` == 'Yes'")
 
-# Females who eat their steak Medium Well.
-dfFemaleMediumWell = df.query("Gender == 'Female' and `How do you like your steak prepared?` == 'Medium Well'")
+# Male: Trek N, War N
+dfMaleTrekNWarN = df.query("`Gender` == 'Male' and "
+                           "`Do you consider yourself to be a fan of the Star Trek franchise?` == 'No' and "
+                           "`Have you seen any of the 6 films in the Star Wars franchise?` == 'No'")
 
-# Females who eat their steak Well.
-dfFemaleWell = df.query("Gender == 'Female' and `How do you like your steak prepared?` == 'Well'")
+# Female: Trek Y, War Y
+dfFemaleTrekYWarY = df.query("`Gender` == 'Female' and "
+                             "`Do you consider yourself to be a fan of the Star Trek franchise?` == 'Yes' and "
+                             "`Have you seen any of the 6 films in the Star Wars franchise?` == 'Yes'")
+# Female: Trek Y, War N
+dfFemaleTrekYWarN = df.query("`Gender` == 'Female' and "
+                             "`Do you consider yourself to be a fan of the Star Trek franchise?` == 'Yes' and "
+                             "`Have you seen any of the 6 films in the Star Wars franchise?` == 'No'")
+# Female: Trek N, War Y
+dfFemaleTrekNWarY = df.query("`Gender` == 'Female' and "
+                             "`Do you consider yourself to be a fan of the Star Trek franchise?` == 'No' and "
+                             "`Have you seen any of the 6 films in the Star Wars franchise?` == 'Yes'")
 
-# Males who do not eat steak.
-dfMaleNoSteak = df.query("Gender == 'Male' and `Do you eat steak?` == 'No'")
+dfFemaleTrekNWarN = df.query("`Gender` == 'Female' and "
+                             "`Do you consider yourself to be a fan of the Star Trek franchise?` == 'No'  and "
+                             "`Have you seen any of the 6 films in the Star Wars franchise?` == 'No'")
 
-# Males who eat their steak Rare.
-dfMaleRare = df.query("Gender == 'Male' and `How do you like your steak prepared?` == 'Rare'")
+# Count Gender totals.
+dfMale = df.query("`Gender` == 'Male'")
+dfFemale = df.query("`Gender` == 'Female'")
 
-# Males who eat their steak Medium rare.
-dfMaleMediumRare = df.query("Gender == 'Male' and `How do you like your steak prepared?` == 'Medium rare'")
+# Count Fan totals.
+dfNotTrek = df.query("`Do you consider yourself to be a fan of the Star Trek franchise?` == 'No'")
+dfFanTrek = df.query("`Do you consider yourself to be a fan of the Star Trek franchise?` == 'Yes'")
 
-# Male who eat their steak Medium.
-dfMaleMedium = df.query("Gender == 'Male' and `How do you like your steak prepared?` == 'Medium'")
+# Count for Seen Star Wars totals.
+dfNotStar = df.query("`Have you seen any of the 6 films in the Star Wars franchise?` == 'No'")
+dfSeenStar = df.query("`Have you seen any of the 6 films in the Star Wars franchise?` == 'Yes'")
 
-# Male who eat their steak Medium Well.
-dfMaleMediumWell = df.query("Gender == 'Male' and `How do you like your steak prepared?` == 'Medium Well'")
+# Table for counts.
+x = PrettyTable(['Gender', 'Fan of Star Trek and Seen Star Wars', 'Fan of Star Trek and Not Watched Star Wars',
+                 'Not a Fan of Star Trek and Seen Star Wars', 'Not A Fan nor Seen Star Wars'])
+x.add_row(['Female', dfFemaleTrekYWarY.shape[0], dfFemaleTrekYWarN.shape[0],
+           dfFemaleTrekNWarY.shape[0], dfFemaleTrekNWarN.shape[0]])
+x.add_row(['Male', dfMaleTrekYWarY.shape[0], dfMaleTrekYWarN.shape[0],
+           dfMaleTrekNWarY.shape[0], dfMaleTrekNWarN.shape[0]])
+x.add_row(["-----", "-----", "-----", "-----", "-----"])
+x.add_row(['Total', dfFemaleTrekYWarY.shape[0] + dfMaleTrekYWarY.shape[0],
+           dfFemaleTrekYWarN.shape[0] + dfMaleTrekYWarN.shape[0],
+           dfFemaleTrekNWarY.shape[0] + dfMaleTrekNWarY.shape[0],
+           dfFemaleTrekNWarN.shape[0] + dfMaleTrekNWarN.shape[0]])
 
-# Male who eat their steak Well.
-dfMaleWell = df.query("Gender == 'Male' and `How do you like your steak prepared?` == 'Well'")
+total = (dfFemaleTrekYWarY.shape[0] + dfMaleTrekYWarY.shape[0] + dfFemaleTrekYWarN.shape[0]
+         + dfMaleTrekYWarN.shape[0] + dfFemaleTrekNWarY.shape[0] + dfMaleTrekNWarY.shape[0]
+         + dfFemaleTrekNWarN.shape[0] + dfMaleTrekNWarN.shape[0])
+print("Totals: ", total, str(df.shape[0]), "\n")
 
-# Steak preference count table.
-x = PrettyTable()
-x.field_names = ["", "Female", "Male"]
-x.add_row(["No Steak", dfFemaleNoSteak.shape[0], dfMaleNoSteak.shape[0]])
-x.add_row(["Rare", dfFemaleRare.shape[0], dfMaleRare.shape[0]])
-x.add_row(["Medium rare", dfFemaleMediumRare.shape[0], dfMaleMediumRare.shape[0]])
-x.add_row(["Medium", dfFemaleMedium.shape[0], dfMaleMedium.shape[0]])
-x.add_row(["Medium Well", dfFemaleMediumWell.shape[0], dfMaleMediumWell.shape[0]])
-x.add_row(["Well", dfFemaleWell.shape[0], dfMaleWell.shape[0]])
-x.add_row(["------","------","------"])
-x.add_row(["Total", dfFemaleNoSteak.shape[0] + dfFemaleRare.shape[0] + dfFemaleMediumRare.shape[0] + dfFemaleMedium.shape[0]
-              + dfFemaleMediumWell.shape[0] + dfFemaleWell.shape[0], dfMaleNoSteak.shape[0] + dfMaleRare.shape[0] + dfMaleMediumRare.shape[0] +
-          dfMaleMedium.shape[0] + dfMaleMediumWell.shape[0] + dfMaleWell.shape[0]])
-# Print table.
-print(x.get_string(title="Steak Preference (count)"))
+print(x.get_string(title="Star Wars Preferences - (Count)"))
+print("\n")
 
-# Steak preference percentage table.
-y = PrettyTable()
-y.field_names = ["", "Female", "Male"]
-y.add_row(["No Steak", round(dfFemaleNoSteak.shape[0]/df.shape[0]*100.0,2), round(dfMaleNoSteak.shape[0]/df.shape[0]*100.0,2)])
-y.add_row(["Rare", round(dfFemaleRare.shape[0]/df.shape[0]*100.0,2), round(dfMaleRare.shape[0]/df.shape[0]*100.0,2)])
-y.add_row(["Medium rare", round(dfFemaleMediumRare.shape[0]/df.shape[0]*100.0,2), round(dfMaleMediumRare.shape[0]/df.shape[0]*100.0,2)])
-y.add_row(["Medium", round(dfFemaleMedium.shape[0]/df.shape[0]*100.0,2), round(dfMaleMedium.shape[0]/df.shape[0]*100.0,2)])
-y.add_row(["Medium Well", round(dfFemaleMediumWell.shape[0]/df.shape[0]*100.0,2), round(dfMaleMediumWell.shape[0]/df.shape[0]*100.0,2)])
-y.add_row(["Well", round(dfFemaleWell.shape[0]/df.shape[0]*100.0,2), round(dfMaleWell.shape[0]/df.shape[0]*100.0,2)])
-y.add_row(["------","------","------"])
-y.add_row(["Total", round((dfFemaleNoSteak.shape[0] + dfFemaleRare.shape[0] + dfFemaleMediumRare.shape[0] + dfFemaleMedium.shape[0]
-              + dfFemaleMediumWell.shape[0] + dfFemaleWell.shape[0])/df.shape[0]*100.0,2), round((dfMaleNoSteak.shape[0] + dfMaleRare.shape[0] + dfMaleMediumRare.shape[0] +
-          dfMaleMedium.shape[0] + dfMaleMediumWell.shape[0] + dfMaleWell.shape[0])/df.shape[0]*100.0,2)])
-# Print table.
-print(y.get_string(title="Steak Preference (percentage)"))
+# Create Joint Distribution Table
+tableJoint = PrettyTable(['Gender', 'Fan of Star Trek and Seen Star Wars', 'Fan of Star Trek and Not Watched Star Wars',
+                          'Not a Fan of Star Trek and Seen Star Wars', 'Not A Fan nor Seen Star Wars'])
+tableJoint.add_row(['Female', round(dfFemaleTrekYWarY.shape[0] / total * 100.0, 2),
+                    round(dfFemaleTrekYWarN.shape[0] / total * 100.0, 2),
+                    round(dfFemaleTrekNWarY.shape[0] / total * 100.0, 2),
+                    round(dfFemaleTrekNWarN.shape[0] / total * 100.0, 2)])
+tableJoint.add_row(['Male', round(dfMaleTrekYWarY.shape[0] / total * 100.0, 2),
+                    round(dfMaleTrekYWarN.shape[0] / total * 100.0, 2),
+                    round(dfMaleTrekNWarY.shape[0] / total * 100.0, 2),
+                    round(dfMaleTrekNWarN.shape[0] / total * 100.0, 2)])
+tableJoint.add_row(["-----", "-----", "-----", "-----", "-----"])
+tableJoint.add_row(['Total', round((dfFemaleTrekYWarY.shape[0] + dfMaleTrekYWarY.shape[0]) / total * 100.0, 2),
+                    round((dfFemaleTrekYWarN.shape[0] + dfMaleTrekYWarN.shape[0]) / total * 100.0, 2),
+                    round((dfFemaleTrekNWarY.shape[0] + dfMaleTrekNWarY.shape[0]) / total * 100.0, 2),
+                    round((dfFemaleTrekNWarN.shape[0] + dfMaleTrekNWarN.shape[0]) / total * 100.0, 2)])
 
-# Compute and display P(A1), P(A2), P(A3).
-# Calculate probability of A1: Gender.
-print("Probability of A1: Gender:")
-# Probability of Female.
-dfFemale = df.query("Gender == 'Female'")
-pFemale = round((dfFemale.shape[0]/df.shape[0])*100,2)
-print("Probability of Gender being Female: ", pFemale,"%")
+print(tableJoint.get_string(title="Star Wars Preferences - (Percentages)"))
+print("\n")
 
-# Probability of Male.
-dfMale = df.query("Gender == 'Male'")
-pMale = round((dfMale.shape[0]/df.shape[0])*100,2)
-print("Probability of Gender being Male: ", pMale,"%\n")
+print("Probability Chances: Gender")
+print("      Female: " + str(round(dfFemale.shape[0] / total * 100.0, 2)))
+print("        Male: " + str(round(dfMale.shape[0] / total * 100.0, 2)))
 
-# Calculate probability of A2: "Do you eat steak?"
-print("Probability of A2: Do you eat steak?:")
-# Probability of NOT eating steak.
-dfNoSteak = df.query("`Do you eat steak?` == 'No'")
-pNoSteak = round((dfNoSteak.shape[0]/df.shape[0])*100,2)
-print("Probability of NOT eating steak ", pNoSteak,"%")
+print("Probability Chances: Fan of Star Trek")
+print("         Fan: " + str(round(dfFanTrek.shape[0] / total * 100.0, 2)))
+print("   Not a Fan: " + str(round(dfNotTrek.shape[0] / total * 100.0, 2)))
 
-# Probability of eating steak.
-dfYesSteak = df.query("`Do you eat steak?` == 'Yes'")
-pYesSteak = round((dfYesSteak.shape[0]/df.shape[0])*100,2)
-print("Probability of eating steak ", pYesSteak,"%\n")
+print("Probability Chances: Seen Star Wars")
+print("         Fan: " + str(round(dfSeenStar.shape[0] / total * 100.0, 2)))
+print("   Not a Fan: " + str(round(dfNotStar.shape[0] / total * 100.0, 2)))
+print("\n")
 
-# Calculate probability of A3: "How do you like your steak prepared?"
-print("Probability of A3: How do you like your steak prepared?:")
-# Probability of Rare.
-dfRare = df.query("`How do you like your steak prepared?` == 'Rare'")
-pRare = round((dfRare.shape[0]/df.shape[0])*100,2)
-print("Probability of preferring Rare ", pRare,"%")
+# P(A1 v A2) = P(A1) + P(A2) - P(A1 and A2)
+pFemale = dfFemale.shape[0]
+pMale = dfMale.shape[0]
+pFanTrek = dfFanTrek.shape[0]
+pNotTrek = dfNotTrek.shape[0]
 
-# Probability of Medium rare.
-dfMediumRare = df.query("`How do you like your steak prepared?` == 'Medium rare'")
-pMediumRare = round((dfMediumRare.shape[0]/df.shape[0])*100,2)
-print("Probability of preferring Medium rare ", pMediumRare,"%")
+# Female, Fan of Star Trek
+dfFemTrek = df.query("`Gender` == 'Female' and "
+                     "`Do you consider yourself to be a fan of the Star Trek franchise?` == 'Yes'")
+pFemTrek = dfFemTrek.shape[0]
+print("p(female v fan of star trek)=", round((pFemale + pFanTrek - pFemTrek) / total * 100, 3), "%")
+# Female, Not fan of Star Trek
+dfFemTrekN = df.query("`Gender` == 'Female' and "
+                      "`Do you consider yourself to be a fan of the Star Trek franchise?` == 'No'")
+pFemTrekN = dfFemTrekN.shape[0]
+print("p(female v not fan of star trek)=", round((pFemale + pNotTrek - pFemTrekN) / total * 100, 3), "%")
 
-# Probability of Medium.
-dfMedium = df.query("`How do you like your steak prepared?` == 'Medium'")
-pMedium = round((dfMedium.shape[0]/df.shape[0])*100,2)
-print("Probability of preferring Medium ", pMedium,"%")
+# Male, Fan of Star Trek
+dfMaleTrek = df.query("`Gender` == 'Male' and "
+                      "`Do you consider yourself to be a fan of the Star Trek franchise?` == 'Yes'")
+pMaleTrek = dfMaleTrek.shape[0]
+print("p(male v fan of star trek)=", round((pMale + pFanTrek - pMaleTrek) / total * 100, 3), "%")
+# Male, Not fan of Star Trek
+dfMaleTrekN = df.query("`Gender` == 'Male' and "
+                       "`Do you consider yourself to be a fan of the Star Trek franchise?` == 'No'")
+pMaleTrekN = dfMaleTrekN.shape[0]
+print("p(male v not fan of star trek)=", round((pMale + pNotTrek - pMaleTrekN) / total * 100, 3), "%")
+print("")
 
-# Probability of Medium Well.
-dfMediumWell = df.query("`How do you like your steak prepared?` == 'Medium Well'")
-pMediumWell = round((dfMediumWell.shape[0]/df.shape[0])*100,2)
-print("Probability of preferring Medium Well ", pMediumWell,"%")
+# P(A1, A3), A1 = Gender A3 = Star Wars
+# Female, Watched Star Wars
+dfFemStar = df.query("`Gender` == 'Female' and "
+                     "`Have you seen any of the 6 films in the Star Wars franchise?` == 'Yes'")
+pFemStar = dfFemStar.shape[0]
+print("p(female, watched star wars) =", round(pFemStar / total * 100, 3), "%")
 
-# Probability of Well.
-dfWell = df.query("`How do you like your steak prepared?` == 'Well'")
-pWell = round((dfWell.shape[0]/df.shape[0])*100,2)
-print("Probability of preferring Well ", pWell,"%\n")
+# Female, Not Watched Star Wars
+dfFemNStar = df.query("`Gender` == 'Female' and "
+                      "`Have you seen any of the 6 films in the Star Wars franchise?` == 'No'")
+pFemNStar = dfFemNStar.shape[0]
 
-# Compute and display P(A1 v A2) and P(A1, A3).
-# Calculate probability of gender OR "Do you eat steak?":
-print("Probability of gender OR `Do you eat steak?` (P(A1 v A2))")
-# Females OR do NOT eat steak:
-pFemaleNoSteak = round((dfFemaleNoSteak.shape[0]/df.shape[0])*100,2)
-print("Probability of female OR does NOT eat steak: ", round(pFemale + pNoSteak - pFemaleNoSteak), "%")
-# Females OR does eat steak:
-dfFemaleYesSteak = df.query("Gender == 'Female' and `Do you eat steak?` == 'Yes'")
-pFemaleYesSteak = round((dfFemaleYesSteak.shape[0]/df.shape[0])*100,2)
-print("Probability of female OR does eat steak: ", round(pFemale + pYesSteak - pFemaleYesSteak), "%")
+# Male, Watched Star Wars
+print("p(female, not watched star wars) =", round(pFemNStar / total * 100, 3), "%")
+dfMaleStar = df.query("`Gender` == 'Male' and "
+                      "`Have you seen any of the 6 films in the Star Wars franchise?` == 'Yes'")
 
-# Males OR do NOT eat steak:
-pMaleNoSteak = round((dfMaleNoSteak.shape[0]/df.shape[0])*100,2)
-print("Probability of Male OR does NOT eat steak: ", round(pMale + pNoSteak - pMaleNoSteak), "%")
-# Males OR does eat steak:
-dfMaleYesSteak = df.query("Gender == 'Male' and `Do you eat steak?` == 'Yes'")
-pMaleYesSteak = round((dfMaleYesSteak.shape[0]/df.shape[0])*100,2)
-print("Probability of Male OR does eat steak: ", round(pMale + pYesSteak - pMaleYesSteak), "%\n")
+pMaleStar = dfMaleStar.shape[0]
+print("p(male, watched star wars) =", round(pMaleStar / total * 100, 3), "%")
 
-# Calculate probability of gender AND "How do you like your steak prepared?"
-print("Probability of gender AND `How do you like your steak prepared?` (P(A1, A3))")
-# Calculate probability of female AND Rare.
-pFemaleRare = round((dfFemaleRare.shape[0]/df.shape[0])*100,2)
-print("Probability of Female AND Rare: ", round(pFemale + pRare - pFemaleRare), "%")
+# Male, Not Watched Star Wars
+dfMaleNStar = df.query("`Gender` == 'Male' and "
+                       "`Have you seen any of the 6 films in the Star Wars franchise?` == 'No'")
+pMaleNStar = dfMaleNStar.shape[0]
+print("p(male, not watched star wars) =", round(pMaleNStar / total * 100, 3), "%")
+print("\n")
 
-# Calculate probability of female AND Medium rare.
-pFemaleMediumRare = round((dfFemaleMediumRare.shape[0]/df.shape[0])*100,2)
-print("Probability of Female AND Medium rare: ", round(pFemale + pMediumRare - pFemaleMediumRare), "%")
+# P(A2 | A1, A3)
+# Female | Watched Star Wars, Fan of Star Trek
+pFemStarTrekY = dfFemaleTrekYWarY.shape[0] / pFemStar
+print("p(fan of star trek | female, watched star wars) =", round(pFemStarTrekY * 100, 3), "%")
 
-# Calculate probability of female AND Medium.
-pFemaleMedium = round((dfFemaleMedium.shape[0]/df.shape[0])*100,2)
-print("Probability of Female AND Medium: ", round(pFemale + pMedium - pFemaleMedium), "%")
+# Female, Watched Star Wars, Not Fan of Star Trek
+pFemStarTrekN = dfFemaleTrekNWarY.shape[0] / pFemStar
+print("p(not fan of star trek | female, watched star wars) =", round(pFemStarTrekN * 100, 3), "%")
 
-# Calculate probability of female AND Medium Well.
-pFemaleMediumWell = round((dfFemaleMediumWell.shape[0]/df.shape[0])*100,2)
-print("Probability of Female AND Medium Well: ", round(pFemale + pMediumWell - pFemaleMediumWell), "%")
+# Female, Not Watched Star Wars, Fan of Star Trek
+pFemNStarTrekY = dfFemaleTrekYWarN.shape[0] / pFemNStar
+print("p(fan of star trek | female, not watched star wars) =", round(pFemNStarTrekY * 100, 3), "%")
 
-# Calculate probability of female AND Well.
-pFemaleWell = round((dfFemaleWell.shape[0]/df.shape[0])*100,2)
-print("Probability of Female AND Well: ", round(pFemale + pWell - pFemaleWell), "%\n")
+# Female, Not Watched Star Wars, Not Fan of Star Trek
+pFemNStarTrekN = dfFemaleTrekNWarN.shape[0] / pFemNStar
+print("p(not fan of star trek | female, not watched star wars) =", round(pFemNStarTrekN * 100, 3), "%")
 
-# Calculate probability of male AND Rare.
-pMaleRare = round((dfMaleRare.shape[0]/df.shape[0])*100,2)
-print("Probability of Male AND Rare: ", round(pMale + pRare - pMaleRare), "%")
+# Male, Watched Star Wars, Fan of Star Trek
+pMaleStarTrekY = dfMaleTrekYWarY.shape[0] / pMaleStar
+print("p(fan of star trek | male, watched star wars) =", round(pMaleStarTrekY * 100, 3), "%")
 
-# Calculate probability of male AND Medium rare.
-pMaleMediumRare = round((dfMaleMediumRare.shape[0]/df.shape[0])*100,2)
-print("Probability of Male AND Medium rare: ", round(pMale + pMediumRare - pMaleMediumRare), "%")
+# Male, Watched Star Wars, Not Fan of Star Trek
+pMaleStarTrekN = dfMaleTrekNWarY.shape[0] / pMaleStar
+print("p(not fan of star trek | male, watched star wars) =", round(pMaleStarTrekN * 100, 3), "%")
 
-# Calculate probability of male AND Medium.
-pMaleMedium = round((dfMaleMedium.shape[0]/df.shape[0])*100,2)
-print("Probability of Male AND Medium: ", round(pMale + pMedium - pMaleMedium), "%")
+# Male, Not Watched Star Wars, Fan of Star Trek
+pMaleNStarTrekY = dfMaleTrekYWarN.shape[0] / pMaleNStar
+print("p(fan of star trek | male, not watched star wars) =", round(pMaleNStarTrekY * 100, 3), "%")
 
-# Calculate probability of male AND Medium Well.
-pMaleMediumWell = round((dfMaleMediumWell.shape[0]/df.shape[0])*100,2)
-print("Probability of Male AND Medium Well: ", round(pMale + pMediumWell - pMaleMediumWell), "%")
+# Male, Not Watched Star Wars, Not Fan of Star Trek
+pMaleNStarTrekN = dfMaleTrekNWarN.shape[0] / pMaleNStar
+print("p(not fan of star trek | male, not watched star wars) =", round(pMaleNStarTrekN * 100, 3), "%")
+print("\n")
 
-# Calculate probability of male AND Well.
-pMaleWell = round((dfMaleWell.shape[0]/df.shape[0])*100,2)
-print("Probability of Male AND Well: ", round(pMale + pWell - pMaleWell), "%")
+# using Bayes P( A1, A3| A2)
+# Female, Watched Star Wars | Fan Trek
+pFemStarGivenFanTrek = (pFemStarTrekY * pFanTrek) / total
+print("p(female, watched star wars | fan trek) =", round(pFemStarGivenFanTrek * 100, 3), "%")
+# Female, Watched Star Wars | Not Fan Trek
+pFemStarGivenNotFanTrek = (pFemStarTrekN * pNotTrek) / total
+print("p(female, watched star wars | not fan trek) =", round(pFemStarGivenNotFanTrek * 100, 3), "%")
+# Female, Not Watched Star Wars | Fan Trek
+pFemNStarGivenFanTrek = (pFemNStarTrekY * pFanTrek) / total
+print("p(female, not watched star wars | fan trek) =", round(pFemNStarGivenFanTrek * 100, 3), "%")
+# Female, Not Watched Star Wars | Not Fan Trek
+pFemNStarGivenNotFanTrek = (pFemNStarTrekN * pNotTrek) / total
+print("p(female, not watched star wars | not fan trek) =", round(pFemNStarGivenNotFanTrek * 100, 3), "%")
 
-# Compute and display P(A2 | A1, A3).
-# Calculate conditional probability of eating steak as a specific gender with specific cook preference:
-# Calculate conditional probabiilty of eating steak as a female who prefers rare steak.
+# Male, Watched Star Wars | Fan Trek
+pMaleStarGivenFanTrek = (pMaleStarTrekY * pFanTrek) / total
+print("p(male, watched star wars | fan trek) =", round(pMaleStarGivenFanTrek * 100, 3), "%")
+# Male, Watched Star Wars | Not Fan Trek
+pMaleStarGivenNotFanTrek = (pMaleStarTrekN * pNotTrek) / total
+print("p(male, watched star wars | not fan trek) =", round(pMaleStarGivenNotFanTrek * 100, 3), "%")
+# Male, Not Watched Star Wars | Fan Trek
+pMaleNStarGivenFanTrek = (pMaleNStarTrekY * pFanTrek) / total
+print("p(male, not watched star wars | fan trek) =", round(pMaleNStarGivenFanTrek * 100, 3), "%")
+# Male, Not Watched Star Wars | Not Fan Trek
+pMaleNStarGivenNotFanTrek = (pMaleNStarTrekN * pNotTrek) / total
+print("p(male, not watched star wars | not fan trek) =", round(pMaleNStarGivenNotFanTrek * 100, 3), "%")
 
-# Calculate conditional probabiilty of eating steak as a male who prefers well steak.
+
