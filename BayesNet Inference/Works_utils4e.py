@@ -878,3 +878,19 @@ class MCT_Node:
         self.children = {}
         self.actions = None
 
+
+def ucb(n, C=1.4):
+    return np.inf if n.N == 0 else n.U / n.N + C * np.sqrt(np.log(n.parent.N) / n.N)
+
+
+# ______________________________________________________________________________
+# Useful Shorthands
+
+
+class Bool(int):
+    """Just like `bool`, except values display as 'T' and 'F' instead of 'True' and 'False'."""
+    __str__ = __repr__ = lambda self: 'T' if self else 'F'
+
+
+T = Bool(True)
+F = Bool(False)
