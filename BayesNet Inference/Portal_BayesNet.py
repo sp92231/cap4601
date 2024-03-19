@@ -20,3 +20,7 @@ T, F = True, False
 file = r"StarWars.xlsx"
 dff = pd.read_excel(file)
 
+# Drop Rows where there are Nan values.
+df = dff.dropna(axis=0, how='any', subset=['Gender', 'Do you consider yourself to be a fan of the Star Trek franchise?',
+                                           'Have you seen any of the 6 films in the Star Wars franchise?'])
+
