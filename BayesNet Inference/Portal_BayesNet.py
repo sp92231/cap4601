@@ -28,3 +28,9 @@ print("number of rows", df.shape[0])
 print("number of columns", df.shape[1])
 print("name of columns", df.columns)
 
+# Get domain of single column values.
+print("Domain Gender", df['Gender'].unique())
+print("Domain Seen Films", df['Have you seen any of the 6 films in the Star Wars franchise?'].unique())
+print("Domain Expanded", df['Do you consider yourself to be a fan of the Star Wars film franchise?'].unique())
+print("Domain Star Trek Fan", df['Do you consider yourself to be a fan of the Star Trek franchise?'].unique())
+
