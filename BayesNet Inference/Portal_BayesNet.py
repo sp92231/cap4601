@@ -24,3 +24,7 @@ dff = pd.read_excel(file)
 df = dff.dropna(axis=0, how='any', subset=['Gender', 'Do you consider yourself to be a fan of the Star Trek franchise?',
                                            'Have you seen any of the 6 films in the Star Wars franchise?'])
 
+print("number of rows", df.shape[0])
+print("number of columns", df.shape[1])
+print("name of columns", df.columns)
+
