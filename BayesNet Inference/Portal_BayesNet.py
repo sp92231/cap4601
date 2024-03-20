@@ -145,3 +145,38 @@ print("P(Gender | StarTrekFan = T, StarWarsFan = F) : ",
 print("P(StarTrekFan | Gender = T) : ",
       enumeration_ask('StarTrekFan', dict(Gender=T), StarWars).show_approx())
 
+# Variable Elimination
+print("\nVariable Elimination")
+print("P(StarTrekFan | Gender = T) : ", elimination_ask(
+    'StarTrekFan', dict(Gender=T),
+    StarWars).show_approx())
+
+# Code Modified from Example2 by Works
+def test_rejection_sampling():
+    print("\nRejection Sampling")
+    random.seed(47)
+    print("P(StarTrekFan | Gender = T) : ", rejection_sampling(
+        'StarTrekFan', dict(Gender=T),
+        StarWars, 10000).show_approx())
+
+# Code Modified from Example2 by Works
+def test_likelihood_weighting():
+    print("\nLikelihood Weighting")
+    random.seed(1017)
+    print("P(StarTrekFan | Gender = T) : ", likelihood_weighting(
+        'StarTrekFan', dict(Gender=T),
+        StarWars, 10000).show_approx())
+
+# Code Modified from Example2 by Works
+def test_prior_sample():
+    print("\nPrior sampling")
+    random.seed(42)
+    all_obs = [prior_sample(StarWars) for _ in range(1000)]
+    female_true = [observation for observation in all_obs if observation['Gender'] == True]
+    female_and_trekFan = [observation for observation in female_true if observation['StarTrekFan'] == True]
+    print("P(StarTrekFan, Gender = T):", len(female_and_trekFan) / len(female_true))
+
+
+test_rejection_sampling()
+test_likelihood_weighting()
+test_prior_sample()
