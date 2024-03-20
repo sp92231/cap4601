@@ -34,3 +34,40 @@ print("Domain Seen Films", df['Have you seen any of the 6 films in the Star Wars
 print("Domain Expanded", df['Do you consider yourself to be a fan of the Star Wars film franchise?'].unique())
 print("Domain Star Trek Fan", df['Do you consider yourself to be a fan of the Star Trek franchise?'].unique())
 
+# num female.
+dfFemale = df.query('Gender==\'Female\'')
+pFemale = dfFemale.shape[0] / df.shape[0]
+
+# num not female.
+dfNotFemale = df.query('Gender!=\'Female\'')
+pNotFemale = dfNotFemale.shape[0] / df.shape[0]
+
+# print(pFemale)
+# print(pNotFemale)
+
+# num trek fan | gender calculations
+# Female, Fan (T, T)
+dfFemTrekFan = df.query("`Gender` == 'Female' and "
+                        "`Do you consider yourself to be a fan of the Star Trek franchise?` == 'Yes'")
+pFemTrekFan = dfFemTrekFan.shape[0] / df.shape[0]
+pTrekFan_Female = pFemTrekFan / pFemale
+# print(pTrekFan_Female)
+# Female, Not Fan (T, F)
+dfFemTrekNotFan = df.query("`Gender` == 'Female' and "
+                           "`Do you consider yourself to be a fan of the Star Trek franchise?` != 'Yes'")
+pFemTrekNotFan = dfFemTrekNotFan.shape[0] / df.shape[0]
+pTrekNotFan_Female = pFemTrekNotFan / pFemale
+# print(pTrekNotFan_Female)
+# Male, Fan (F, T)
+dfMaleTrekFan = df.query("`Gender` == 'Male' and "
+                         "`Do you consider yourself to be a fan of the Star Trek franchise?` == 'Yes'")
+pMaleTrekFan = dfMaleTrekFan.shape[0] / df.shape[0]
+pTrekFan_Male = pMaleTrekFan / pNotFemale
+# print(pTrekFan_Male)
+# Male, Not Fan (F, F)
+dfMaleTrekNotFan = df.query("`Gender` == 'Male' and "
+                            "`Do you consider yourself to be a fan of the Star Trek franchise?` != 'Yes'")
+pMaleTrekNotFan = dfMaleTrekNotFan.shape[0] / df.shape[0]
+pTrekNotFan_Male = pMaleTrekNotFan / pNotFemale
+# print(pTrekNotFan_Male)
+
