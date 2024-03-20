@@ -129,3 +129,19 @@ pSWNotFanNotSeen = dfSWNotFanNotSeen.shape[0] / df.shape[0]
 pNotFan_NotSeen = pSWNotFanNotSeen / pNotSeen
 print(pNotFan_NotSeen)
 
+StarWars = BayesNet([
+    ('Gender', '', pFemale),
+    ('StarTrekFan', 'Gender', {T: pTrekFan_Female, F: pTrekFan_Male}),
+    ('SeenStarWars', 'Gender', {T: pSeen_Female, F: pSeen_Male}),
+    ('StarWarsFan', 'SeenStarWars', {T: pFan_Seen, F: pFan_NotSeen})
+])
+
+print("\n\nEnumerations")
+# First Enumeration (Part 1)
+print("P(Gender | StarTrekFan = T, StarWarsFan = F) : ",
+      enumeration_ask('Gender', dict(StarTrekFan=T, StarWarsFan=T), StarWars).show_approx())
+
+# Second Enumeration (Part 2, and the one I'm using for the rest.)
+print("P(StarTrekFan | Gender = T) : ",
+      enumeration_ask('StarTrekFan', dict(Gender=T), StarWars).show_approx())
+
