@@ -71,3 +71,61 @@ pMaleTrekNotFan = dfMaleTrekNotFan.shape[0] / df.shape[0]
 pTrekNotFan_Male = pMaleTrekNotFan / pNotFemale
 # print(pTrekNotFan_Male)
 
+# num seen star wars | gender
+# Female, Seen (T, T)
+dfFemSeen = df.query("`Gender` == 'Female' and "
+                     "`Have you seen any of the 6 films in the Star Wars franchise?` == 'Yes'")
+pFemSeen = dfFemSeen.shape[0] / df.shape[0]
+pSeen_Female = pFemSeen / pFemale
+# print(pSeen_Female)
+# Female, Not Seen (T, F)
+dfFemNotSeen = df.query("`Gender` == 'Female' and "
+                        "`Have you seen any of the 6 films in the Star Wars franchise?` != 'Yes'")
+pFemNotSeen = dfFemNotSeen.shape[0] / df.shape[0]
+pNotSeen_Female = pFemNotSeen / pFemale
+# print(pNotSeen_Female)
+# Male, Seen (F, T)
+dfMaleSeen = df.query("`Gender` == 'Male' and "
+                      "`Have you seen any of the 6 films in the Star Wars franchise?` == 'Yes'")
+pMaleSeen = dfMaleSeen.shape[0] / df.shape[0]
+pSeen_Male = pMaleSeen / pNotFemale
+# print(pSeen_Male)
+# Male, Not Seen (F, F)
+dfMaleNotSeen = df.query("`Gender` == 'Male' and "
+                         "`Have you seen any of the 6 films in the Star Wars franchise?` != 'Yes'")
+pMaleNotSeen = dfMaleNotSeen.shape[0] / df.shape[0]
+pNotSeen_Male = pMaleNotSeen / pNotFemale
+# print(pNotSeen_Male)
+
+# num fan | seen star wars
+# num Seen
+dfSeen = df.query("`Have you seen any of the 6 films in the Star Wars franchise?` == 'Yes'")
+pSeen = dfSeen.shape[0] / df.shape[0]
+# num Not Seen
+dfNotSeen = df.query("`Have you seen any of the 6 films in the Star Wars franchise?` == 'No'")
+pNotSeen = dfNotSeen.shape[0] / df.shape[0]
+# Fan, Seen (T, T)
+dfSWFanSeen = df.query("`Do you consider yourself to be a fan of the Star Wars film franchise?` == 'Yes' and "
+                       "`Have you seen any of the 6 films in the Star Wars franchise?` == 'Yes'")
+pSWFanSeen = dfSWFanSeen.shape[0] / df.shape[0]
+pFan_Seen = pSWFanSeen / pSeen
+# print(pFan_Seen)
+# Fan, Not Seen (T, F)
+dfSWFanNotSeen = df.query("`Do you consider yourself to be a fan of the Star Wars film franchise?` == 'Yes' and "
+                          "`Have you seen any of the 6 films in the Star Wars franchise?` == 'No'")
+pSWFanNotSeen = dfSWFanNotSeen.shape[0] / df.shape[0]
+pFan_NotSeen = pSWFanNotSeen / pNotSeen
+# print(pFan_NotSeen)
+# Not Fan, Seen (F, T)
+dfSWNotFanSeen = df.query("`Do you consider yourself to be a fan of the Star Wars film franchise?` == 'No' and "
+                          "`Have you seen any of the 6 films in the Star Wars franchise?` == 'Yes'")
+pSWNotFanSeen = dfSWNotFanSeen.shape[0] / df.shape[0]
+pNotFan_Seen = pSWNotFanSeen / pSeen
+# print(pNotFan_Seen)
+# Not Fan, Not Seen (F, F)
+dfSWNotFanNotSeen = df.query("`Do you consider yourself to be a fan of the Star Wars film franchise?` == 'No' and "
+                             "`Have you seen any of the 6 films in the Star Wars franchise?` == 'No'")
+pSWNotFanNotSeen = dfSWNotFanNotSeen.shape[0] / df.shape[0]
+pNotFan_NotSeen = pSWNotFanNotSeen / pNotSeen
+print(pNotFan_NotSeen)
+
