@@ -40,3 +40,21 @@ def label_temp(row):
 df['label_temp'] = df.apply(lambda row: label_temp(row), axis=1)
 # print(df['label_temp'])
 
+# Initialising variables.
+CountColdCold = 0
+CountColdCool = 0
+CountColdWarm = 0
+CountColdHot = 0
+CountCoolCold = 0
+CountCoolCool = 0
+CountCoolWarm = 0
+CountCoolHot = 0
+CountWarmCold = 0
+CountWarmCool = 0
+CountWarmWarm = 0
+CountWarmHot = 0
+CountHotCold = 0
+CountHotCool = 0
+CountHotWarm = 0
+CountHotHot = 0
+
