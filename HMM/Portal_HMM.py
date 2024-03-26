@@ -19,3 +19,11 @@ from utils import rounder
 random.seed("aima-python")
 file = r"PRSA_Data_Tiantan_20130301-20170228.csv"
 df = pd.read_csv(file)
+
+# print(df)
+# print(df['TEMP'].unique())
+# print(df['TEMP'].dtype)
+print("min = ", min(df["TEMP"]))
+print("max = ", max(df["TEMP"]))
+print("mean = ", df["TEMP"].mean())
+
