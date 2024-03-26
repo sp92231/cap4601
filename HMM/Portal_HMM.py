@@ -27,3 +27,16 @@ print("min = ", min(df["TEMP"]))
 print("max = ", max(df["TEMP"]))
 print("mean = ", df["TEMP"].mean())
 
+def label_temp(row):
+    if row['TEMP'] < 16.8:
+        return "Cold" # Temperatures below 16.8 deg.
+    elif 16.8 <= row['TEMP'] <= 24.0:
+        return "Cool" # Temperatures from 16.8 to 24.0 deg.
+    elif 24.0 < row['TEMP'] <= 32.0:
+        return "Warm" # Temperatures from 24.0 to 32.0 deg.
+    elif 32.0 < row['TEMP'] <= 41.1:
+        return "Hot" # Temperatures from 32.0 to 41.1 deg.
+
+df['label_temp'] = df.apply(lambda row: label_temp(row), axis=1)
+# print(df['label_temp'])
+
