@@ -58,3 +58,42 @@ CountHotCool = 0
 CountHotWarm = 0
 CountHotHot = 0
 
+# Counts.
+indxTempLabel = df.columns.get_loc("label_temp")
+for i in range(1, df.shape[0] - 1):
+    if df.iat[i, indxTempLabel] == 'Cold':
+        if df.iat[i + 1, indxTempLabel] == 'Cold':
+            CountColdCold += 1
+        elif df.iat[i + 1, indxTempLabel] == 'Cool':
+            CountColdCool += 1
+        elif df.iat[i + 1, indxTempLabel] == 'Warm':
+            CountColdWarm += 1
+        elif df.iat[i + 1, indxTempLabel] == 'Hot':
+            CountColdHot += 1
+    elif df.iat[i, indxTempLabel] == 'Cool':
+        if df.iat[i + 1, indxTempLabel] == 'Cold':
+            CountCoolCold += 1
+        elif df.iat[i + 1, indxTempLabel] == 'Cool':
+            CountCoolCool += 1
+        elif df.iat[i + 1, indxTempLabel] == 'Warm':
+            CountCoolWarm += 1
+        elif df.iat[i + 1, indxTempLabel] == 'Hot':
+            CountCoolHot += 1
+    elif df.iat[i, indxTempLabel] == 'Warm':
+        if df.iat[i + 1, indxTempLabel] == 'Cold':
+            CountWarmCold += 1
+        elif df.iat[i + 1, indxTempLabel] == 'Cool':
+            CountWarmCool += 1
+        elif df.iat[i + 1, indxTempLabel] == 'Warm':
+            CountWarmWarm += 1
+        elif df.iat[i + 1, indxTempLabel] == 'Hot':
+            CountWarmHot += 1
+    elif df.iat[i, indxTempLabel] == 'Hot':
+        if df.iat[i + 1, indxTempLabel] == 'Cold':
+            CountHotCold += 1
+        elif df.iat[i + 1, indxTempLabel] == 'Cool':
+            CountHotCool += 1
+        elif df.iat[i + 1, indxTempLabel] == 'Warm':
+            CountHotWarm += 1
+        elif df.iat[i + 1, indxTempLabel] == 'Hot':
+            CountHotHot += 1
