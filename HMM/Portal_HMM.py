@@ -214,3 +214,41 @@ CountTF = 0
 CountFF = 0
 CountFT = 0
 
+indxTempMonthEvidLabel = df.columns.get_loc("temp_month_evidence")
+for i in range(1, df.shape[0] - 1):
+    if df.iat[i, indxTempMonthEvidLabel]:
+        if df.iat[i + 1, indxTempMonthEvidLabel]:
+            CountTT += 1
+        else:
+            CountTF += 1
+    else:
+        if df.iat[i + 1, indxTempMonthEvidLabel]:
+            CountFT += 1
+        else:
+            CountFF += 1
+
+# print(CountTT)
+# print(CountTF)
+# print(CountFT)
+# print(CountFF)
+
+ProbTT = CountTT / (CountTT + CountTF)
+ProbTF = CountTF / (CountTT + CountTF)
+ProbFT = CountFT / (CountFT + CountFF)
+ProbFF = CountFF / (CountFT + CountFF)
+
+
+transition = [
+    [ProbColdCold, ProbColdCool, ProbColdWarm, ProbColdHot],
+    [ProbCoolCold, ProbCoolCool, ProbCoolWarm, ProbCoolHot],
+    [ProbWarmCold, ProbWarmCool, ProbWarmWarm, ProbWarmHot],
+    [ProbHotCold, ProbHotCool, ProbHotWarm, ProbHotHot]
+]
+
+sensor = [[ProbTT, ProbTT, ProbTF, ProbTF],
+          [ProbFT, ProbFT, ProbFF, ProbFF]]
+
+TemperatureHMM = HiddenMarkovModel(transition, sensor)
+print(TemperatureHMM.__dict__)
+evidence = [T, T, F, T, F]
+print(rounder(forwardOnly(TemperatureHMM, evidence)))
