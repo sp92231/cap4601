@@ -138,3 +138,29 @@ CountHotHot)
 ProbHotHot = CountHotHot / (CountHotCold + CountHotCool + CountHotWarm +
 CountHotHot)
 
+transition_prob = {
+    'Cold': {
+        'Cold': ProbColdCold,
+        'Cool': ProbColdCool,
+        'Warm': ProbColdWarm,
+        'Hot': ProbColdHot
+    },
+    'Cool': {
+        'Cold': ProbCoolCold,
+        'Cool': ProbCoolCool,
+        'Warm': ProbCoolWarm,
+        'Hot': ProbCoolHot
+    },
+    'Warm': {
+        'Cold': ProbWarmCold,
+        'Cool': ProbWarmCool,
+        'Warm': ProbWarmWarm,
+        'Hot': ProbWarmHot
+    },
+    'Hot': {
+        'Cold': ProbHotCold,
+        'Cool': ProbHotCool,
+        'Warm': ProbHotWarm,
+        'Hot': ProbHotHot
+    }
+}
