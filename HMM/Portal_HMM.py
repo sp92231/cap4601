@@ -164,3 +164,18 @@ transition_prob = {
         'Hot': ProbHotHot
     }
 }
+
+temp_chain = MarkovChain(transition_prob=transition_prob)
+# print(temp_chain.__dict__)
+
+# Generating states
+print("\nMarkov States (I add a few since current_state Cold mostly defaults to "
+ "Cold since the probability of being cold on a cold day is 98%).\n")
+print(temp_chain.next_state(current_state='Cold'))
+print(temp_chain.next_state(current_state='Cool'))
+print(temp_chain.next_state(current_state='Warm'))
+print(temp_chain.next_state(current_state='Hot'))
+print(temp_chain.generate_states(current_state='Cold', no=25))
+print(temp_chain.generate_states(current_state='Cool', no=25))
+print(temp_chain.generate_states(current_state='Warm', no=25))
+print(temp_chain.generate_states(current_state='Hot', no=25))
