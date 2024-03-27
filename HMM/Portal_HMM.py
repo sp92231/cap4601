@@ -192,3 +192,25 @@ round(ProbWarmHot, 2)],
 round(ProbHotHot, 2)]
 ])
 
+# Transitioning matrix.
+mc = MarkovChainDraw(P, ['Cold', 'Cool', 'Warm', 'Hot'])
+mc.draw()
+
+
+
+# HMM Code
+# Computing sensors.
+def label_temp_month_evidence(row):
+ # Coldest months: Jan, Feb, March, April, Nov, Dec.
+    if row['month'] in range(1, 4) or row['month'] in range(10, 12):
+        return True
+    return False
+
+df['temp_month_evidence'] = df.apply(lambda row: label_temp_month_evidence(row),
+axis=1)
+
+CountTT = 0
+CountTF = 0
+CountFF = 0
+CountFT = 0
+
