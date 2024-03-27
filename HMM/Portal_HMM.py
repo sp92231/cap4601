@@ -97,3 +97,44 @@ for i in range(1, df.shape[0] - 1):
             CountHotWarm += 1
         elif df.iat[i + 1, indxTempLabel] == 'Hot':
             CountHotHot += 1
+
+# Probability of Cold.
+ProbColdCold = CountColdCold / (CountColdCold + CountColdCool + CountColdWarm +
+CountColdHot)
+ProbColdCool = CountColdCool / (CountColdCold + CountColdCool + CountColdWarm +
+CountColdHot)
+ProbColdWarm = CountColdWarm / (CountColdCold + CountColdCool + CountColdWarm +
+CountColdHot)
+ProbColdHot = CountColdHot / (CountColdCold + CountColdCool + CountColdWarm +
+CountColdHot)
+
+# Probability of Cool.
+ProbCoolCold = CountCoolCold / (CountCoolCold + CountCoolCool + CountCoolWarm +
+CountCoolHot)
+ProbCoolCool = CountCoolCool / (CountCoolCold + CountCoolCool + CountCoolWarm +
+CountCoolHot)
+ProbCoolWarm = CountCoolWarm / (CountCoolCold + CountCoolCool + CountCoolWarm +
+CountCoolHot)
+ProbCoolHot = CountCoolHot / (CountCoolCold + CountCoolCool + CountCoolWarm +
+CountCoolHot)
+
+# Probability of Warm.
+ProbWarmCold = CountWarmCold / (CountWarmCold + CountWarmCool + CountWarmWarm +
+CountWarmHot)
+ProbWarmCool = CountWarmCool / (CountWarmCold + CountWarmCool + CountWarmWarm +
+CountWarmHot)
+ProbWarmWarm = CountWarmWarm / (CountWarmCold + CountWarmCool + CountWarmWarm +
+CountWarmHot)
+ProbWarmHot = CountWarmHot / (CountWarmCold + CountWarmCool + CountWarmWarm +
+CountWarmHot)
+
+# Probability of Hot.
+ProbHotCold = CountHotCold / (CountHotCold + CountHotCool + CountHotWarm +
+CountHotHot)
+ProbHotCool = CountHotCool / (CountHotCold + CountHotCool + CountHotWarm +
+CountHotHot)
+ProbHotWarm = CountHotWarm / (CountHotCold + CountHotCool + CountHotWarm +
+CountHotHot)
+ProbHotHot = CountHotHot / (CountHotCold + CountHotCool + CountHotWarm +
+CountHotHot)
+
