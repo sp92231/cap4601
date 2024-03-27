@@ -179,3 +179,16 @@ print(temp_chain.generate_states(current_state='Cold', no=25))
 print(temp_chain.generate_states(current_state='Cool', no=25))
 print(temp_chain.generate_states(current_state='Warm', no=25))
 print(temp_chain.generate_states(current_state='Hot', no=25))
+
+# Importing MarkovChain class.
+P = np.array([
+ [round(ProbColdCold, 2), round(ProbColdCool, 2), round(ProbColdWarm, 2),
+round(ProbColdHot, 2)],
+ [round(ProbCoolCold, 2), round(ProbCoolCool, 2), round(ProbCoolWarm, 2),
+round(ProbCoolHot, 2)],
+ [round(ProbWarmCold, 2), round(ProbWarmCool, 2), round(ProbWarmWarm, 2),
+round(ProbWarmHot, 2)],
+ [round(ProbHotCold, 2), round(ProbHotCool, 2), round(ProbHotWarm, 2),
+round(ProbHotHot, 2)]
+])
+
