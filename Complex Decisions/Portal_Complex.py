@@ -38,3 +38,27 @@ R = np.array([[0, -200000],
               [5000, 0],
               [50000, 0],
               [100000, 0]])
+
+print("P=", P)
+print("R=", R)
+
+Discount = 0.9
+NumPeriods = 10
+
+##########################
+print("Value Iteration")
+vi = mdptoolbox.mdp.ValueIteration(P, R, Discount, NumPeriods)
+vi.setVerbose()
+vi.run()
+print("optimal value function=", vi.V)
+print("optimal policy=", vi.policy)
+##########################
+
+##########################
+print("Policy Iteration")
+pi = mdptoolbox.mdp.PolicyIteration(P, R, Discount)
+pi.setVerbose()
+pi.run()
+print("optimal value function=", pi.V)
+print("optimal policy=", pi.policy)
+##########################
