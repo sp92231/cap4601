@@ -68,3 +68,13 @@ df = df.dropna(axis=0, how='any', subset=['shotFirst?', 'Gender', 'Education']) 
 data = pd.get_dummies(df[['Gender', 'starTrek_Fan?', 'Education',
                           'expUniverse_Familiar?', 'shotFirst?']])
 
+#print the new dummy data
+print(data)
+
+# The decision tree classifier.
+clf = tree.DecisionTreeClassifier()
+
+#split data into test and training set
+x = data   # Second column until the last column
+y = df['starWars_Fan?']
+
