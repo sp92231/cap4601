@@ -78,3 +78,13 @@ clf = tree.DecisionTreeClassifier()
 x = data   # Second column until the last column
 y = df['starWars_Fan?']
 
+
+#this function randomly split the data into train and test sets
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=.45)
+#test_size=.3 means that our test set will be 30% of the train set.
+
+# Training the Decision Tree
+clf_train = clf.fit(x_train, y_train)
+data = pd.get_dummies(df[['Gender', 'starTrek_Fan?', 'Education',
+                          'expUniverse_Familiar?', 'shotFirst?']])
+
