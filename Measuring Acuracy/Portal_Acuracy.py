@@ -88,3 +88,12 @@ clf_train = clf.fit(x_train, y_train)
 data = pd.get_dummies(df[['Gender', 'starTrek_Fan?', 'Education',
                           'expUniverse_Familiar?', 'shotFirst?']])
 
+#print the new dummy data
+#print(data)
+
+#drop any rows with misssing values
+data = data.dropna()
+#print the new dummy data
+#print(data)
+x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=.45, random_state=100)
+
