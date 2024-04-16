@@ -97,3 +97,15 @@ data = data.dropna()
 #print(data)
 x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=.45, random_state=100)
 
+#######################################
+# graph measuring accuracy based upon depth of decision tree
+max_depth = []
+entropy = []
+for i in range(1,10):
+ dtree = tree.DecisionTreeClassifier(criterion='entropy', max_depth=i)
+ dtree.fit(x_train, y_train)
+ pred = dtree.predict(x_test)
+ entropy.append(accuracy_score(y_test, pred))
+ ####
+ max_depth.append(i)
+
