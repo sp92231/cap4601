@@ -14,3 +14,20 @@ import pydotplus # To create our Decision Tree Graph
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 
+#pip install matplotlib
+import matplotlib.pyplot as plt
+from sklearn.utils import graph
+
+file = r"StarWars.xlsx"
+df = pd.read_excel(file)
+
+# Dictionary to simplify the long column names
+colNames = {
+    'Education': 'Education',
+    'Do you consider yourself to be a fan of the Star Wars film franchise?': 'starWars_Fan?',
+    'Which character shot first?': 'shotFirst?',
+    'Are you familiar with the Expanded Universe?': 'expUniverse_Familiar?',
+    'Do you consider yourself to be a fan of the Star Trek franchise?': 'starTrek_Fan?',
+    'Gender': 'Gender'
+}
+
