@@ -45,3 +45,26 @@ eduMap = {
     'Graduate degree': 'College or More'
 }
 
+df['Education'] = df['Education'].map(eduMap)
+
+# Change all empty values to the equivalent negative (ie, you can't be a fan if you haven't seen it)
+df['starWars_Fan?'] = df['starWars_Fan?'].fillna('No')  # Assuming not a fan if not answered
+df['expUniverse_Familiar?'] = df['expUniverse_Familiar?'].fillna('No')  # Assuming not familiar if not answered
+df['starTrek_Fan?'] = df['starTrek_Fan?'].fillna('No')  # Assuming not a fan if not answered
+
+# Dropping rows where specified columns have NaNs
+df = df.dropna(axis=0, how='any', subset=['shotFirst?', 'Gender', 'Education'])  # Can't change empty to alt, so remove
+
+
+# print(df.head())
+# print("Name of Columns", df.columns)
+# print(df.head(1000))
+# print(df.shape[0])  # 512 Overall Rows after trimming
+
+###################################
+## 1) Using Sample pop
+#Now I will convert the categorical variables into dummy/indicator variables or (binary variables) essentially 1’s and 0's.
+#data = pd.get_dummies(df[ ['sex','pclass','parch'] ])
+data = pd.get_dummies(df[['Gender', 'starTrek_Fan?', 'Education',
+                          'expUniverse_Familiar?', 'shotFirst?']])
+
