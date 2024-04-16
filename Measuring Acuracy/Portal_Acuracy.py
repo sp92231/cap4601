@@ -31,3 +31,17 @@ colNames = {
     'Gender': 'Gender'
 }
 
+# Rename columns
+df.rename(columns=colNames, inplace=True)
+
+# Change shotFirst? and Education to boolean values
+df['shotFirst?'] = df['shotFirst?'].replace("I don't understand this question", None)
+
+eduMap = {
+    'High school degree': 'High School or Less',
+    'Less than high school degree': 'High School or Less',
+    'Bachelor degree': 'College or More',
+    'Some college or Associate degree': 'College or More',
+    'Graduate degree': 'College or More'
+}
+
