@@ -109,3 +109,13 @@ for i in range(1,10):
  ####
  max_depth.append(i)
 
+#plot graph
+d = pd.DataFrame({
+ 'entropy':pd.Series(entropy),
+ 'max_depth':pd.Series(max_depth)})
+
+plt.plot('max_depth','entropy', data=d, label='entropy')
+plt.xlabel('max_depth')
+plt.ylabel('accuracy')
+plt.legend()
+plt.show()
